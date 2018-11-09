@@ -1,32 +1,35 @@
 import React, { Component } from 'react';
-import Greeting from './greeting';
+import axios from 'axios';
+
+import SearchForm from './SearchForm';
+import GeocodeResult from './GeocodeResult';
+
+const GEOCODE_ENDPOINT = 'https://maps.googleapis.com/maps/api/geocode/json';
 
 class App2 extends Component {
   constructor(props){
     super(props);
     this.state = {
-      name: 'Bob',
     };
   }
 
-  handleNameChange(name) {
-    this.setState({name})
-}
-  handleBobClicked(name) {
-    this.setState({name: name})
-}
+  handlePlaceSubmit(place){
+    axios.get(GEOCODE_ENDPOINT, { params: { address: place } })
+    .then((results) => {
+      console.log(results);
+    });
+  }
 
   render(){
     return (
       <div>
-
-      <input type="text" value={this.state.name}
-        onChange={ e => this.handleNameChange(e.target.value)} />
-         {/* onChange={ e => this.handleNameChange(e)} /> */}
-        <button onClick={() => this.handleBobClicked('Bob')}>
-          I am Bob
-        </button>
-        <Greeting name= {this.state.name} />
+        <h1>緯度経度検索</h1>
+        <SearchForm onSubmit={place => this.handlePlaceSubmit(place)}/>
+        <GeocodeResult 
+          address={this.state.adress}
+          lat={this.state.lat}
+          lng={this.state.lng}
+        />
       </div>
       );
   }
