@@ -1,7 +1,7 @@
 import React from 'react';
 
 function Greeting(props) {
-  return (<div>{props.name}</div>);
+  return (<div>Hi, {props.name}</div>);
 }
 
 
